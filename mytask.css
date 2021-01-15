@@ -1,0 +1,117 @@
+form#new_menu_item_form{
+
+width: 30%;
+margin: 2% auto;
+
+} 
+
+form#new_menu_item_form input,label,select,textarea { 
+    margin: 5px auto;
+    width: 100%;
+    border-radius: 5px;
+
+
+}
+
+form#new_menu_item_form input,select{ 
+height: 4%;
+border: 1px solid black;
+box-shadow: 0px 0px 5px #ccc;
+
+}
+
+form#new_menu_item_form textarea{ 
+    height: 12%;
+    border: 1px solid black;
+    box-shadow: 0px 0px 5px #ccc;
+}
+
+form#new_menu_item_form button#new_menu_item_add_button{ 
+
+background-color: rgb(107, 243, 107);
+height: 6%;
+width: 18%;
+float: right;
+border: none;
+margin-right: 3%;
+margin-top: 5px;
+cursor: pointer;
+border-radius: 5px;
+        
+}
+
+form#new_menu_item_form button#new_menu_item_close_button{ 
+
+    background-color: rgb(248, 85, 85);
+    height: 6%;
+    width: 18%;
+    float: right;
+    border: none;
+    margin-top: 5px;  
+    cursor: pointer;  
+    border-radius: 5px;
+}
+
+form#new_menu_item_form button#new_menu_item_add_button:hover{ 
+
+    background-color: rgb(47, 138, 47);
+   
+    }
+
+    form#new_menu_item_form button#new_menu_item_close_button:hover{ 
+
+        background-color: rgb(202, 56, 56);
+
+    }
+
+    #menubar { 
+        border: 1px solid red;
+        margin-left: 33%;
+        display: inline-block;
+        width: 34%;
+
+    }
+
+    h1 {
+        font-size: xx-large;
+        margin-left: 35%;
+        margin-top: 10px;
+        display: inline-block;
+
+    }
+
+    #menubar button { 
+        float: right;
+    }
+
+ button#add_new_button{ 
+        background-color: rgb(107, 243, 107);
+        height: 6%;
+        width: 10%;
+        border: none; 
+        cursor: pointer;  
+        border-radius: 5px;
+        margin-right: 10px;
+        margin-left: 30px;
+
+
+    }
+
+body button#signout{
+        background-color: rgb(248, 85, 85);
+        height: 6%;
+        width: 8%;
+        border: none;
+        cursor: pointer;  
+        border-radius: 5px;
+    }
+
+    body button#signout:hover{
+        background-color: rgb(202, 56, 56);
+
+    }
+
+ button#add_new_button:hover{
+        background-color: rgb(47, 138, 47);
+    }
+
