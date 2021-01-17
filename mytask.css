@@ -115,3 +115,23 @@ body button#signout{
         background-color: rgb(47, 138, 47);
     }
 
+table#menu_items_table{
+    border: 1px solid black;
+    width: 70%;
+}
+
+table#menu_items_table select{
+    width: 100px;
+    float: right;
+
+}
+
+table#menu_items_table button{
+    float: right;
+
+}
+
+#title{
+    font-weight: bold;
+    font-size: x-large;
+}
