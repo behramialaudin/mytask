@@ -1,4 +1,7 @@
 <?php 
+
+require_once "db.php";
+
 function isUserLoggedIn(){
         return isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
     }
@@ -9,30 +12,34 @@ function isUserLoggedIn(){
         $sqlQuery = "SELECT * FROM users WHERE user_email=:email";
         $statement = $dbConnection->prepare($sqlQuery);
         $statement->bindParam(':email', $email);
-        if($statement->execute()){
+        if ($statement->execute()) {
             $user = $statement->fetch(PDO::FETCH_ASSOC);
-            return $user !==  false;
-        }
-        return false;
+            if($user !== false){
+                 return $user;
+            }
+         }
+         return null;
     }
 
     function findUserByEmailAndPassword($email, $password){
         global $dbConnection;
 
-        $sqlQuery = "SELECT * FROM users WHERE `user_email`=:email
-                         AND `user_password`=:password";
+        $sqlQuery = "SELECT * FROM users WHERE user_email=:email
+                         AND user_password=:password";
         $encryptedPassword = md5($password);
         $statement = $dbConnection->prepare($sqlQuery);
         $statement->bindParam(':email', $email);
         $statement->bindParam(':password', $encryptedPassword);
+
         if ($statement->execute()) {
-           $user = $statement->fetch(PDO::FETCH_ASSOC);
-            return $user !==  false;
+            $user = $statement->fetch(PDO::FETCH_ASSOC);
+            if($user !== false){
+                 return $user;
+            }
+         }
+         return null;
+    
         }
-        return false;
-    }
-
-
 
     function storeUserToDatabase(array $user){
         global $dbConnection;
@@ -59,4 +66,44 @@ function isUserLoggedIn(){
         session_destroy();
     }
 
+
+    function storeTaskToFile(array $task, $userId){
+        global $dbConnection;
+
+        $sqlQuery = "INSERT INTO `tasks` (`task_title`, `task_description`,`task_status`, `user_id`) 
+                        VALUES (:title, :description, :status, :user_id);";
+
+        $statement = $dbConnection->prepare($sqlQuery);
+        $statement->bindParam(":title", $task['title']);
+        $statement->bindParam(":description", $task['description']);
+        $statement->bindParam(":status",$task['status']);
+        $statement->bindParam(":user_id", $userId);
+
+        if($statement->execute()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    function getTasksByUserId($userId){
+        global $dbConnection;
+
+        $sqlQuery = "SELECT * FROM `tasks` WHERE `user_id`=:user_id";
+        $statement = $dbConnection->prepare($sqlQuery);
+        $statement->bindParam(":user_id", $userId);
+
+        if($statement->execute()){
+            $tasks = $statement->fetchAll(PDO::FETCH_ASSOC);
+            return $tasks;
+        }else{
+            return [];
+        }
+    }
+
+
+
     ?>
+
+
+    
