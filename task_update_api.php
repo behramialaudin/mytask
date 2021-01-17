@@ -26,7 +26,7 @@ if (!isUserLoggedIn()) {
 $userId = $_SESSION['user_id'];
 $taskId = $_POST['task_id'];
 $taskStatus = $_POST['task_status'];
-updateTaskStatusByTaskId($taskId, $taskStatus);
+updateTaskStatusByTaskId($taskId,$taskStatus);
 
 echo json_encode([
     'success' => true,

@@ -23,8 +23,6 @@ if (!isUserLoggedIn()) {
 
 <body>
 
-
-
     <h1>My Task</h1>
     <button id="add_new_button">Add New</button>
 
@@ -38,8 +36,6 @@ if (!isUserLoggedIn()) {
             <option value="to_do"> To Do</option>
             <option value="in_progress">In Progress</option>
             <option value="done" selected>Done</option>
-
-
         </select><br>
 
         <button id="new_menu_item_close_button" type="button" value="Close">Close</button>
@@ -47,8 +43,7 @@ if (!isUserLoggedIn()) {
     </form>
     <br><br>
     <center>
-        <table id="menu_items_table">
-        </table>
+        <table id="menu_items_table"></table>
     </center>
 
 
@@ -103,14 +98,14 @@ if (!isUserLoggedIn()) {
         '<span>{{task_description}}</span>' +
         '</td>' +
         '<td>' +
-        '<select id="select_id" onchange="updateTask({{task_idx}})">' +
+        '<select id="select_{{task_idxxx}}" onchange="updateTask({{task_idx}})">' +
         '<option value="to_do" {{status_to_do}}> To Do</option>' +
         '<option value="in_progress" {{status_in_progress}}>In Progress</option>' +
         '<option value="done" {{status_done}}>Done</option>' +
         '</select>' +
         '</td>' +
         '<td>' +
-        '<button onclick="deleteTask({{task_idx}})">DELETE</button>' +
+        '<button onclick="deleteTask({{task_idxx}})">DELETE</button>' +
         '</td>' +
         '"</tr>';
 
@@ -119,17 +114,20 @@ if (!isUserLoggedIn()) {
         const apiEndpoint = "http://localhost/mytask/task_api.php";
         $.get(apiEndpoint, function(response) {
             if (response.success == false || response.data.length == 0) {
-                $("#menu_items_table").html(noTaskTemplate);
+                $("#menu_items_table").append(noTaskTemplate);
             } else {
 
                 let allTasksTemplate = "";
                 for (let i = 0; i < response.data.length; i++) {
                     const currentTask = response.data[i];
                     let statusi = currentTask.task_status;
+
                     allTasksTemplate += taskTemplate.replace("{{task_title}}", escapeHtml(currentTask.task_title))
                         .replace("{{task_description}}", escapeHtml(currentTask.task_description))
                         .replace("{{status_" + statusi + "}}", "selected")
-                        .replace("{{task_idx}}", currentTask.task_id);
+                        .replace("{{task_idx}}", currentTask.task_id)
+                        .replace("{{task_idxx}}", currentTask.task_id)
+                        .replace("{{task_idxxx}}", currentTask.task_id);
                 }
                 $("#menu_items_table").append(allTasksTemplate);
             }
@@ -156,10 +154,8 @@ if (!isUserLoggedIn()) {
     }
 
     function updateTask(idx){
-
-        const taskStatus =  $("#select_id").val();
-
         const apiEndpoint = "http://localhost/mytask/task_update_api.php";
+        let taskStatus =  $("#select_"+idx).val();
 
         $.post(apiEndpoint, {
                 'task_id': idx,
@@ -168,11 +164,13 @@ if (!isUserLoggedIn()) {
                 if (response.success == false) {
 
                 } else {
-                    location.reload();
+                   locatin.reload();
+                    
                 }
             });
-
     }
+
+
 
     function escapeHtml(str) {
         var map = {

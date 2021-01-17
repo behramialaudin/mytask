@@ -116,14 +116,22 @@ body button#signout{
     }
 
 table#menu_items_table{
-    border-radius: 5px;
-    border: 1px solid black;
+
     width: 60%;
-    background-color: aliceblue;
+    border-spacing: 0px 10px;
 
 }
 
+table tr{
+    border-radius: 10px;
+    background-color: aliceblue;;
+}
 
+table td{
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+
+}
 table#menu_items_table select{
     float: right;
     width: auto;

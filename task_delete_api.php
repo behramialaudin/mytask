@@ -24,7 +24,6 @@ if (!isUserLoggedIn()) {
 // .... 
 
 $userId = $_SESSION['user_id'];
-$tasks = getTasksByUserId($userId);
 $taskId = $_POST['task_id'];
 deleteTaskByTaskId($taskId);
 

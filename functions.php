@@ -89,7 +89,7 @@ function isUserLoggedIn(){
     function getTasksByUserId($userId){
         global $dbConnection;
 
-        $sqlQuery = "SELECT * FROM `tasks` WHERE `user_id`=:user_id";
+        $sqlQuery = "SELECT * FROM `tasks` WHERE `user_id`=:user_id ORDER BY task_id DESC";
         $statement = $dbConnection->prepare($sqlQuery);
         $statement->bindParam(":user_id", $userId);
 
@@ -132,7 +132,6 @@ function isUserLoggedIn(){
             return false; 
         }
 
-        
     }
 
 
