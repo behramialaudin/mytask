@@ -38,7 +38,6 @@ session_start();
         const email = $("#register_email").val();
         const password = $("#register_password").val();
 
-
         const apiEndpoint = "http://localhost/mytask/register_api.php";
 
         $.post(apiEndpoint, {

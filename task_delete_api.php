@@ -4,10 +4,10 @@ session_start();
 require_once "functions.php";
 header('Content-Type: application/json');
 
-if ($_SERVER['REQUEST_METHOD'] != 'GET') {
+if ($_SERVER['REQUEST_METHOD'] != 'POST') {
     echo json_encode([
         'success' => false,
-        'message' => 'GET HTTP Method required!'
+        'message' => 'POST HTTP Method required!'
     ]);
     die();
 }
@@ -25,10 +25,11 @@ if (!isUserLoggedIn()) {
 
 $userId = $_SESSION['user_id'];
 $tasks = getTasksByUserId($userId);
+$taskId = $_POST['task_id'];
+deleteTaskByTaskId($taskId);
 
 echo json_encode([
     'success' => true,
-    'message' => 'tasks list',
-    'data'    => $tasks
+    'message' => 'Task deleted'
 ]);
 die();

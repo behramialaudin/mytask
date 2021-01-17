@@ -102,6 +102,37 @@ function isUserLoggedIn(){
     }
 
 
+    function deleteTaskByTaskId($taskId){
+        global $dbConnection;
+
+        $sqlQuery = "DELETE FROM `tasks` WHERE `tasks`.`task_id` =:task_id";
+        $statement = $dbConnection->prepare($sqlQuery);
+        $statement->bindParam(":task_id", $taskId);
+
+        if($statement->execute()){
+            return true;
+        }else{
+            return false; 
+        }
+
+    }
+
+    function updateTaskStatusByTaskId($taskId,$taskStatus){
+        $sqlQuery = "UPDATE `tasks` SET task_status=:task_status WHERE task_id=:task_id";
+        $statement = $dbConnection->prepare($sqlQuery);
+        $statement->bindParam(":task_status", $taskStatus);
+        $statement->bindParam(":task_id", $taskId);
+
+        if($statement->execute()){
+            return true;
+        }else{
+            return false; 
+        }
+
+        
+    }
+
+
 
     ?>
 

@@ -116,22 +116,27 @@ body button#signout{
     }
 
 table#menu_items_table{
+    border-radius: 5px;
     border: 1px solid black;
-    width: 70%;
+    width: 60%;
+    background-color: aliceblue;
+
 }
 
+
 table#menu_items_table select{
-    width: 100px;
     float: right;
+    width: auto;
 
 }
 
 table#menu_items_table button{
-    float: right;
+    border-radius: 5px;
+    background-color: rgb(248, 85, 85);
 
 }
 
-#title{
+#tasktitle{
     font-weight: bold;
     font-size: x-large;
 }

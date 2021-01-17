@@ -18,7 +18,7 @@ if (!isUserLoggedIn()) {
     <title>My Task </title>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <link rel="stylesheet" type="text/css" href="mytask.css">
-    <script src="/mytask.js"></script> 
+    <script src="/mytask.js"></script>
 </head>
 
 <body>
@@ -47,24 +47,8 @@ if (!isUserLoggedIn()) {
     </form>
     <br><br>
     <center>
-            <table id="menu_items_table">
-                <tr>
-                    <td>
-                        <span id="title">task title</span><br>
-                        <span>task descriptiontask description<br>task description</span>
-                    </td>
-                    <td> <select>
-                            <option value="to_do"> To Do</option>
-                            <option value="in_progress">In Progress</option>
-                            <option value="done" selected>Done</option>
-
-
-                        </select></td>
-                    <td>
-                        <button>DELETE</button>
-                    </td>
-                </tr>
-            </table>
+        <table id="menu_items_table">
+        </table>
     </center>
 
 
@@ -84,7 +68,7 @@ if (!isUserLoggedIn()) {
         const description = $("#new_menu_item_form_description").val();
         const status = $("#select_dropdown").val();
 
-        const apiEndpoint = "http://localhost/mytask/task_api.php";
+        const apiEndpoint = "http://localhost/mytask/mytask_api.php";
 
         $.post(apiEndpoint, {
             'title': title,
@@ -95,11 +79,95 @@ if (!isUserLoggedIn()) {
                 alert(response.message);
 
             } else {
-                location.reload(); 
+                location.reload();
+
+
             }
         });
 
         return false;
+    }
+
+    $(document).ready(function() {
+        loadTasks();
+    });
+
+    let allTasksTemplate = "";
+
+    const noTaskTemplate = '<div>' +
+        'You dont have any tasks.' +
+        '</div>';
+    const taskTemplate = '<tr>' +
+        '<td>' +
+        '<span id="tasktitle">{{task_title}}</span><br>' +
+        '<span>{{task_description}}</span>' +
+        '</td>' +
+        '<td>' +
+        '<select>' +
+        '<option value="to_do" {{status_to_do}}> To Do</option>' +
+        '<option value="in_progress" {{status_in_progress}}>In Progress</option>' +
+        '<option value="done" {{status_done}}>Done</option>' +
+        '</select>' +
+        '</td>' +
+        '<td>' +
+        '<button onclick="deleteTask({{task_idx}})">DELETE</button>' +
+        '</td>' +
+        '"</tr>';
+
+
+    function loadTasks() {
+        const apiEndpoint = "http://localhost/mytask/task_api.php";
+        $.get(apiEndpoint, function(response) {
+            if (response.success == false || response.data.length == 0) {
+                $("#menu_items_table").html(noTaskTemplate);
+            } else {
+
+                let allTasksTemplate = "";
+                for (let i = 0; i < response.data.length; i++) {
+                    const currentTask = response.data[i];
+                    let statusi = currentTask.task_status;
+                    allTasksTemplate += taskTemplate.replace("{{task_title}}", escapeHtml(currentTask.task_title))
+                        .replace("{{task_description}}", escapeHtml(currentTask.task_description))
+                        .replace("{{status_" + statusi + "}}", "selected")
+                        .replace("{{task_idx}}", currentTask.task_id);
+                }
+                $("#menu_items_table").append(allTasksTemplate);
+            }
+        });
+    }
+
+    function deleteTask(idx) {
+        const apiEndpoint = "http://localhost/mytask/task_delete_api.php";
+
+        let message = confirm("Are you sure u want to delete this task with id=" +idx);
+
+        if (message == true) {
+            $.post(apiEndpoint, {
+                'task_id': idx
+            }, function(response) {
+                if (response.success == false) {
+
+                } else {
+                    location.reload();
+                }
+            });
+
+        } 
+    }
+
+
+
+    function escapeHtml(str) {
+        var map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
+        return str.replace(/[&<>"']/g, function(m) {
+            return map[m];
+        });
     }
 
 
@@ -111,7 +179,6 @@ if (!isUserLoggedIn()) {
     $("#new_menu_item_close_button").click(function() {
         $("#new_menu_item_form").css("display", "none");
     });
-
 </script>
 
 </html>
