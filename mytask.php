@@ -103,7 +103,7 @@ if (!isUserLoggedIn()) {
         '<span>{{task_description}}</span>' +
         '</td>' +
         '<td>' +
-        '<select>' +
+        '<select id="select_id" onchange="updateTask({{task_idx}})">' +
         '<option value="to_do" {{status_to_do}}> To Do</option>' +
         '<option value="in_progress" {{status_in_progress}}>In Progress</option>' +
         '<option value="done" {{status_done}}>Done</option>' +
@@ -155,7 +155,24 @@ if (!isUserLoggedIn()) {
         } 
     }
 
+    function updateTask(idx){
 
+        const taskStatus =  $("#select_id").val();
+
+        const apiEndpoint = "http://localhost/mytask/task_update_api.php";
+
+        $.post(apiEndpoint, {
+                'task_id': idx,
+                'task_status': taskStatus
+            }, function(response) {
+                if (response.success == false) {
+
+                } else {
+                    location.reload();
+                }
+            });
+
+    }
 
     function escapeHtml(str) {
         var map = {

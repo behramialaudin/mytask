@@ -118,10 +118,13 @@ function isUserLoggedIn(){
     }
 
     function updateTaskStatusByTaskId($taskId,$taskStatus){
+        global $dbConnection;
+
         $sqlQuery = "UPDATE `tasks` SET task_status=:task_status WHERE task_id=:task_id";
         $statement = $dbConnection->prepare($sqlQuery);
-        $statement->bindParam(":task_status", $taskStatus);
         $statement->bindParam(":task_id", $taskId);
+        $statement->bindParam(":task_status", $taskStatus);
+
 
         if($statement->execute()){
             return true;
